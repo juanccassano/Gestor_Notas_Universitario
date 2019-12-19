@@ -320,5 +320,29 @@ public class PersonaDao {
 		}
 		return estado;
 	}
+	
+	public boolean borrarPersona(int leg) {
+		
+
+		boolean estado=false;
+		
+		cn = new Conexion();
+		cn.Open();	
+
+		String query = "UPDATE personas SET Estado=0 WHERE Legajo="+leg;
+		try
+		 {
+			estado=cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return estado;
+	}
 
 }

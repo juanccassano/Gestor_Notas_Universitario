@@ -5,6 +5,9 @@ import java.util.ArrayList;
 
 import AccesoDatos.Conexion;
 import Dominio.Curso;
+import Dominio.Materia;
+import Dominio.Persona;
+import Dominio.Provincia;
 
 
 public class CursoDao {
@@ -17,12 +20,18 @@ public class CursoDao {
 		 ArrayList<Curso> list = new ArrayList<Curso>();
 		 try
 		 {
-			 ResultSet rs= cn.query("Select * from cursos");
+			 ResultSet rs= cn.query("Select * from cursos ORDER BY IDMateria asc");
 			 while(rs.next())
 			 {
 				 Curso curso = new Curso();
-				// art.setIdArticulo(rs.getInt("articulos.idArticulo"));
-				// art.setNombre(rs.getString("articulos.nombre"));
+				
+				curso.setID(rs.getInt("ID"));
+				curso.setIDmateria(rs.getInt("IDMateria"));
+				curso.setLegDocente(rs.getInt("IDProfesor"));
+				curso.setSemestre(rs.getInt("Semestre"));
+				curso.setAnio(rs.getInt("Anio"));
+
+				
 
 				 list.add(curso);
 			 }
@@ -37,6 +46,118 @@ public class CursoDao {
 			 cn.close();
 		 }
 		 return list;
+	}
+	
+	public ArrayList<Materia> obtenerMaterias()
+	{
+		cn = new Conexion();
+		cn.Open();
+		ArrayList<Materia> list = new ArrayList<Materia>();
+		 try
+		 {
+			 ResultSet rs= cn.query("Select * from materias");
+			 while(rs.next())
+			 {
+					Materia mat = new Materia();
+				 
+				 
+				 mat.setID(rs.getInt("ID"));
+				 mat.setNombre(rs.getString("Nombre"));
+
+				 list.add(mat);
+			 }
+			 
+		 }
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();
+		 }
+		 finally
+		 {
+			 cn.close();
+		 }
+		 return list;
+
+	}
+	
+
+	
+	public String obtenerMateria(int id)
+	{
+		cn = new Conexion();
+		cn.Open();
+		String nombre="";
+		 try
+		 {
+			 ResultSet rs= cn.query("Select * from materias where ID="+id);
+			 while(rs.next())
+			 {
+				 nombre= rs.getString("Nombre");
+			 }
+			 
+		 }
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();
+		 }
+		 finally
+		 {
+			 cn.close();
+		 }
+		 return nombre;
+		
+	}
+	
+	public String obtenerProf(int leg)
+	{
+		cn = new Conexion();
+		cn.Open();
+		String nombre="";
+		 try
+		 {
+			 ResultSet rs= cn.query("Select * from personas where Legajo="+leg);
+			 while(rs.next())
+			 {
+				 nombre= rs.getString("ApellidoNombre");
+			 }
+			 
+		 }
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();
+		 }
+		 finally
+		 {
+			 cn.close();
+		 }
+		 return nombre;
+		
+	}
+	
+	public boolean altaCurso(Curso c)
+	{
+		boolean estado = false;
+		cn = new Conexion();
+		cn.Open();	
+
+		String query = "INSERT INTO cursos (IDMateria, Semestre, Anio, IDProfesor) "
+				     + "VALUES ('"+c.getIDmateria()+"','"+c.getSemestre()+"','"+c.getAnio()+"','"+c.getLegDocente()+"')";
+				     
+		try
+		 {
+			estado=cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return estado;
+
+
 	}
 
 }

@@ -301,13 +301,45 @@ for (Persona pers : listP)
 
 </form>
 
+<form method= "post" action="ServletAlumno">
+
+<!-- Modal Borrar-->
+<div class="modal fade" id="modalBorrar" tabindex="-1" role="dialog" aria-labelledby="modalLabelBorrar" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabelBorrar">Borrar alumno</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      
+      
+        
+<div style="float:left">¿Está seguro que desea borrar el registro seleccionado?</div> <div style="width:300px;float:right"></div> 
+<input type="hidden" id= "txtLegB" name="txtLegB">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+	 <input type="submit" class="btn btn-info" name="btnAceptarB" id="btnAceptarB" value="Borrar"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+</form>
+
 <button type="button" class="btn btn-info" name="btnAlta" id="btnAlta" data-toggle="modal" data-target="#modalNuevo">
  Alta
 </button>
 <button type="button" class="btn btn-info" name="btnModificar" id="btnModificar" data-toggle="modal" data-target="#modalModif" disabled>
  Mofidicar
 </button>
-<button type="button" class="btn btn-info" name="btnBorrar" id="btnBorrar" disabled>Borrar</button>
+<button type="button" class="btn btn-info" name="btnBorrar" id="btnBorrar" data-toggle="modal" data-target="#modalBorrar" disabled>
+ Borrar
+</button>
 
 <%
 	if (request.getAttribute("resultadoM") != null)
@@ -376,8 +408,44 @@ for (Persona pers : listP)
 	 	 	 	}
 
 
-	 	 	 	
-	 	 	 		  %>
+
+if (request.getAttribute("resultado") != null)
+{	
+	boolean carga = (boolean) request.getAttribute("resultado");
+
+	if (carga)
+		 	 	{
+ 	 	 	%>
+ 	 	 	
+ 	 	<body onLoad="$('#modalCorrecto').modal('show');">
+
+ 	 	<div class="modal fade" id="modalCorrecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+ 	 	  <div class="modal-dialog modal-dialog-centered" role="document">
+ 	 	    <div class="modal-content">
+ 	 	      <div class="modal-header">
+ 	 	        <h5 class="modal-title" id="exampleModalCenterTitle">Éxito</h5>
+ 	 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+ 	 	          <span aria-hidden="true">&times;</span>
+ 	 	        </button>
+ 	 	      </div>
+ 	 	      <div class="modal-body">
+ 	 	        Alta realizada exitosamente.
+ 	 	      </div>
+ 	 	      <div class="modal-footer">
+ 	 	        <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar</button>
+ 	 	      </div>
+ 	 	    </div>
+ 	 	  </div>
+ 	 	</div>
+ 	 	 	
+ 	 	 	
+ 	 	 	<% 
+		 	 	}
+}
+ 	 	 	%> 
+ 	 	 	 	
+	
+
 
 </body>
 
@@ -472,6 +540,17 @@ for (Persona pers : listP)
         
     });
     
+    $( "#modalBorrar" ).on('shown.bs.modal', function(){
+        var legajo = $("#AlumnoSeleccionado").val();
+
+            $("#txtLegB").val(legajo);
+            $("#AlumnoSeleccionado").val(null);
+
+
+
+       // });
+        
+    });
 
 
 

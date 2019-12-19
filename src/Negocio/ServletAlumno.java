@@ -166,6 +166,23 @@ public class ServletAlumno extends HttpServlet {
 			rd.forward(request, response);
 		}
 		
+		if (request.getParameter("btnAceptarB")!= null)
+		{
+			boolean borrado = false;
+			PersonaDao persona = new PersonaDao();
+			int leg = (Integer.parseInt(request.getParameter("txtLegB")));
+			
+			borrado = persona.borrarPersona(leg);
+			
+			
+			
+			
+			request.setAttribute ("resultadoB", borrado);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/Alumnos.jsp");
+			rd.forward(request, response);
+		}
+		
 		
 		
 		
