@@ -32,7 +32,11 @@
 </style>
 </head>
 <body>
-
+      <%
+      IngresoDao ing = new IngresoDao();
+      if (ing.esAdmin())
+{
+%> 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,6 +48,8 @@
         <a class="nav-link" href="./Inicio.jsp">Inicio <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
+
+      
         <a class="nav-link" href="./Alumnos.jsp">Alumnos</a>
       </li>
       <li class="nav-item">
@@ -58,17 +64,51 @@
     </ul>
 
   </div>
-      <p style="text-align:right; color:white"">
-      <%
-      IngresoDao ing = new IngresoDao();
-      %>
+            <p style="text-align:right; color:white"">
+
       <%= ing.obtenerNombre() %> 
-      <%
-      ;
-      %>
+
       
       </p>
 </nav>
+
+<%
+}
+      else
+      {
+    	  
+      
+%>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="./Inicio.jsp">Inicio <span class="sr-only">(current)</span></a>
+      </li>
+                  <li class="nav-item">
+        <a class="nav-link" href="./Cursos.jsp">Cursos</a>
+      </li> 
+      
+    </ul>
+
+  </div>
+            <p style="text-align:right; color:white"">
+
+      <%= ing.obtenerNombre() %> 
+
+      
+      </p>
+</nav>
+      
+      
+      
+      <%
+      }
+      %>
 </br>
 
 
@@ -88,6 +128,9 @@
   <tbody>
 <%
 CursoDao curD = new CursoDao();
+if (ing.esAdmin())
+{
+
 ArrayList<Curso> listC = new ArrayList<Curso>();
 listC = curD.obtenerTodos();
 
@@ -106,6 +149,30 @@ for (Curso cur : listC)
 <%
 }
 }
+}
+else
+{
+	
+	ArrayList<Curso> listC = new ArrayList<Curso>();
+	listC = curD.obtenerTodos(ing.obtenerUltimo());
+
+	if (listC != null)
+	{
+	for (Curso cur : listC) 
+	{
+		%>
+	<tr> 
+	<td><%=  cur.getID() %> </td>
+	<td><%=  curD.obtenerMateria(cur.getIDmateria()) %> </td>
+	<td> <%= cur.getSemestre() %> </td>
+	<td><%= cur.getAnio() %></td>
+	<td><%= cur.getLegDocente()+ " - "+ curD.obtenerProf(cur.getLegDocente()) %> </td>
+	</tr>
+	<%
+	}
+	}
+}
+	
 %>
   </tbody>
 </table>
@@ -189,11 +256,24 @@ for (Curso cur : listC)
 
 </form>
 </br>
-<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalAlta">
- Nuevo curso
-</button>
+<%
+if (!ing.esAdmin())
+{
+	%>
+	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalAlta" disabled>
+	 Nuevo curso
+	</button>	
+	<%
+}
+else
+{
+%>
+	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalAlta">
+	 Nuevo curso
+	</button>	
+	<%
+}
 
-	 	 	 	<% 
 
 
 
@@ -205,9 +285,9 @@ if (request.getAttribute("resultadoA") != null)
 		 	 	{
  	 	 	%>
  	 	 	
- 	 	<body onLoad="$('#modalCorrecto').modal('show');">
+ 	 	<body onLoad="$('#modalCorrectoA').modal('show');">
 
- 	 	<div class="modal fade" id="modalCorrecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+ 	 	<div class="modal fade" id="modalCorrectoA" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
  	 	  <div class="modal-dialog modal-dialog-centered" role="document">
  	 	    <div class="modal-content">
  	 	      <div class="modal-header">
@@ -238,9 +318,9 @@ if (request.getAttribute("resultadoA") != null)
 	 	 	 			 	 	{
 	 	 	 	 	 	 	%>
 	 	 	 	 	 	 	
-	 	 	 	 	 	<body onLoad="$('#modalCorrecto').modal('show');">
+	 	 	 	 	 	<body onLoad="$('#modalCorrectoACF').modal('show');">
 
-	 	 	 	 	 	<div class="modal fade" id="modalCorrecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	 	 	 	 	 	<div class="modal fade" id="modalCorrectoACF" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	 	 	 	 	 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	 	 	 	 	 	    <div class="modal-content">
 	 	 	 	 	 	      <div class="modal-header">
@@ -263,7 +343,77 @@ if (request.getAttribute("resultadoA") != null)
 	 	 	 	 	 	 	<% 
 	 	 	 			 	 	}
 	 	 	 	}
+	 	 	 	 	 	 	if (request.getAttribute("resultadoCN") != null)
+	 	 	 	{	
+	 	 	 		boolean carga = (boolean) request.getAttribute("resultadoCN");
+
+	 	 	 		if (carga)
+	 	 	 			 	 	{
+	 	 	 	 	 	 	%>
+	 	 	 	 	 	 	
+	 	 	 	 	 	<body onLoad="$('#modalCorrectoCN').modal('show');">
+
+	 	 	 	 	 	<div class="modal fade" id="modalCorrectoCN" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	 	 	 	 	 	  <div class="modal-dialog modal-dialog-centered" role="document">
+	 	 	 	 	 	    <div class="modal-content">
+	 	 	 	 	 	      <div class="modal-header">
+	 	 	 	 	 	        <h5 class="modal-title" id="exampleModalCenterTitle">Éxito</h5>
+	 	 	 	 	 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	 	 	 	 	 	          <span aria-hidden="true">&times;</span>
+	 	 	 	 	 	        </button>
+	 	 	 	 	 	      </div>
+	 	 	 	 	 	      <div class="modal-body">
+	 	 	 	 	 	        La carga fue realizada con éxito.
+	 	 	 	 	 	      </div>
+	 	 	 	 	 	      <div class="modal-footer">
+	 	 	 	 	 	        <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar</button>
+	 	 	 	 	 	      </div>
+	 	 	 	 	 	    </div>
+	 	 	 	 	 	  </div>
+	 	 	 	 	 	</div>
+	 	 	 	 	 	 	
+	 	 	 	 	 	 	
+	 	 	 	 	 	 	<% 
+	 	 	 			 	 	}
+	 	 	 		
+	 	 	 		else
+	 			 	 	{
+	 	 	 	 	%>
+	 	 	 	 	
+	 	 	 	<body onLoad="$('#modalIncorrectoCN').modal('show');">
+
+	 	 	 	<div class="modal fade" id="modalIncorrectoCN" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	 	 	 	  <div class="modal-dialog modal-dialog-centered" role="document">
+	 	 	 	    <div class="modal-content">
+	 	 	 	      <div class="modal-header">
+	 	 	 	        <h5 class="modal-title" id="exampleModalCenterTitle">Atención</h5>
+	 	 	 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	 	 	 	          <span aria-hidden="true">&times;</span>
+	 	 	 	        </button>
+	 	 	 	      </div>
+	 	 	 	      <div class="modal-body">
+	 	 	 	        No se realizó ningún cambio sobre los registros.
+	 	 	 	      </div>
+	 	 	 	      <div class="modal-footer">
+	 	 	 	        <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar</button>
+	 	 	 	      </div>
+	 	 	 	    </div>
+	 	 	 	  </div>
+	 	 	 	</div>
+	 	 	 	 	
+	 	 	 	 	
+	 	 	 	 	<% 
+	 			 	 	}
+	 	 	 		
+	 	 	 		
+	 	 	 		
+	 	 	 	}
 	 	 	 	 	 	 	%> 
+
+
+
+
+
 
 </body>
 

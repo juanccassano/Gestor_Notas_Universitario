@@ -71,6 +71,46 @@ public class IngresoDao {
 		return ultimo;
 	}
 	
+	public boolean esAdmin()
+	{
+		
+		boolean es = false;
+		int leg = obtenerUltimo();
+		cn = new Conexion();
+		cn.Open();
+				
+
+		try
+		 {
+			 ResultSet rs= cn.query("SELECT * FROM personas WHERE Legajo="+leg);
+			 rs.next();
+			 
+			 String prof = "Profesor";
+			 String rol = "";
+			 rol=rs.getString("Rol"); 
+			 
+			 if (!rol.contentEquals(prof))
+			 {
+				 es=true;
+			 }
+			 
+				 
+
+
+			 
+		 }
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();
+		 }
+		 finally
+		 {
+			 cn.close();
+		 }
+		return es;
+		
+	}
+	
 	public String obtenerNombre()
 	{
 		

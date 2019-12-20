@@ -49,6 +49,40 @@ public class CursoDao {
 		 return list;
 	}
 	
+	public ArrayList<Curso> obtenerTodos(int IDDocente) {
+		cn = new Conexion();
+		cn.Open();
+		 ArrayList<Curso> list = new ArrayList<Curso>();
+		 try
+		 {
+			 ResultSet rs= cn.query("Select * from cursos where IDProfesor="+IDDocente +" ORDER BY IDMateria asc");
+			 while(rs.next())
+			 {
+				 Curso curso = new Curso();
+				
+				curso.setID(rs.getInt("ID"));
+				curso.setIDmateria(rs.getInt("IDMateria"));
+				curso.setLegDocente(rs.getInt("IDProfesor"));
+				curso.setSemestre(rs.getInt("Semestre"));
+				curso.setAnio(rs.getInt("Anio"));
+
+				
+
+				 list.add(curso);
+			 }
+			 
+		 }
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();
+		 }
+		 finally
+		 {
+			 cn.close();
+		 }
+		 return list;
+	}
+	
 	public ArrayList<Materia> obtenerMaterias()
 	{
 		cn = new Conexion();
@@ -421,6 +455,35 @@ public class CursoDao {
 
 
 	}
+	
+	public boolean modificarNota(Nota n)
+	{
+		boolean estado = false;
+		cn = new Conexion();
+		cn.Open();	
+
+		//String query = "INSERT INTO notas (Legajo, Nota, Instancia, IDCurso) "
+		//		     + "VALUES ("+ n.getLegajo() +","+ n.getNota()+",'"+ n.getInstancia()+"',"+ n.getIDCurso()+")";
+		
+		String query = "UPDATE notas SET Nota="+n.getNota() + " WHERE Legajo="+n.getLegajo()+ " AND Instancia='"+ n.getInstancia() + "' AND IDCurso="+n.getIDCurso();
+				     
+		try
+		 {
+			estado=cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return estado;
+
+
+	}
+	
 	
 
 }

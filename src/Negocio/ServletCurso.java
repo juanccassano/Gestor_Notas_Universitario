@@ -217,9 +217,86 @@ public class ServletCurso extends HttpServlet {
 					
 					if (request.getParameter(P1) != "")
 					{
+					not.setIDCurso(IDCurso);
+					not.setInstancia("P1");
+					not.setLegajo(p.getLegajo());
+					not.setNota(Integer.parseInt(request.getParameter(P1)));
 					
+					if (cur.obtenerPUno(IDCurso, p.getLegajo()) > 0 && cur.obtenerPUno(IDCurso, p.getLegajo()) <11)
+					{
+						cur.modificarNota(not);
+								
 					}
 					
+					else
+					
+					{
+						cur.cargarNota(not);	
+					}
+					
+					
+					carga = true;
+					}
+					
+					if (request.getParameter(P2) != "")
+					{
+					not.setIDCurso(IDCurso);
+					not.setInstancia("P2");
+					not.setLegajo(p.getLegajo());
+					not.setNota(Integer.parseInt(request.getParameter(P2)));
+					if (cur.obtenerPDos(IDCurso, p.getLegajo()) > 0 && cur.obtenerPDos(IDCurso, p.getLegajo()) <11)
+					{
+						cur.modificarNota(not);
+								
+					}
+					
+					else
+					
+					{
+						cur.cargarNota(not);	
+					}
+					carga = true;
+					}
+					
+					if (request.getParameter(R1) != "")
+					{
+					not.setIDCurso(IDCurso);
+					not.setInstancia("R1");
+					not.setLegajo(p.getLegajo());
+					not.setNota(Integer.parseInt(request.getParameter(R1)));
+					if (cur.obtenerRUno(IDCurso, p.getLegajo()) > 0 && cur.obtenerRUno(IDCurso, p.getLegajo()) <11)
+					{
+						cur.modificarNota(not);
+								
+					}
+					
+					else
+					
+					{
+						cur.cargarNota(not);	
+					}
+					carga = true;
+					}
+					
+					if (request.getParameter(R2) != "")
+					{
+					not.setIDCurso(IDCurso);
+					not.setInstancia("R2");
+					not.setLegajo(p.getLegajo());
+					not.setNota(Integer.parseInt(request.getParameter(R2)));
+					if (cur.obtenerRDos(IDCurso, p.getLegajo()) > 0 && cur.obtenerRDos(IDCurso, p.getLegajo()) <11)
+					{
+						cur.modificarNota(not);
+								
+					}
+					
+					else
+					
+					{
+						cur.cargarNota(not);	
+					}
+					carga = true;
+					}
 					
 					
 				}

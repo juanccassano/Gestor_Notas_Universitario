@@ -31,7 +31,11 @@
 </style>
 </head>
 <body>
-
+      <%
+      IngresoDao ing = new IngresoDao();
+      if (ing.esAdmin())
+{
+%> 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,6 +47,8 @@
         <a class="nav-link" href="./Inicio.jsp">Inicio <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
+
+      
         <a class="nav-link" href="./Alumnos.jsp">Alumnos</a>
       </li>
       <li class="nav-item">
@@ -57,17 +63,51 @@
     </ul>
 
   </div>
-      <p style="text-align:right; color:white"">
-      <%
-      IngresoDao ing = new IngresoDao();
-      %>
+            <p style="text-align:right; color:white"">
+
       <%= ing.obtenerNombre() %> 
-      <%
-      ;
-      %>
+
       
       </p>
 </nav>
+
+<%
+}
+      else
+      {
+    	  
+      
+%>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="./Inicio.jsp">Inicio <span class="sr-only">(current)</span></a>
+      </li>
+                  <li class="nav-item">
+        <a class="nav-link" href="./Cursos.jsp">Cursos</a>
+      </li> 
+      
+    </ul>
+
+  </div>
+            <p style="text-align:right; color:white"">
+
+      <%= ing.obtenerNombre() %> 
+
+      
+      </p>
+</nav>
+      
+      
+      
+      <%
+      }
+      %>
 </br>
 
 <input type="hidden" id= "AlumnoSeleccionado" name="AlumnoSeleccionado" onChange="pruebaFc()">
