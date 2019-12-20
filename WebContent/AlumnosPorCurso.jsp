@@ -1,4 +1,5 @@
 <%@page import="AccesoDatos.PersonaDao" %>
+<%@page import="AccesoDatos.CursoDao" %>
 <%@page import="AccesoDatos.IngresoDao" %>
 <%@page import="Dominio.Persona" %>
 <%@page import="Dominio.Provincia" %>
@@ -69,8 +70,6 @@
 </nav>
 </br>
 
-<input type="hidden" id= "AlumnosSeleccionados" name="AlumnosSeleccionados" onChange="pruebaFc()">
-
 
 <table id="TablaAlum" class="table table-hover table-dark">
   <thead>
@@ -88,9 +87,15 @@
   </thead>
   <tbody>
 <%
-PersonaDao persD = new PersonaDao();
+CursoDao curD = new CursoDao();
 ArrayList<Persona> listP = new ArrayList<Persona>();
-listP = persD.obtenerTodos("'Alumno'");
+int cursoSelec = 0;
+if (request.getAttribute("resultadoAC") != null)
+{
+	cursoSelec = (int) request.getAttribute("resultadoAC");
+}
+
+listP = curD.obtenerAlumnosDisponibles(cursoSelec);
 
 if (listP != null)
 {
@@ -114,14 +119,87 @@ for (Persona pers : listP)
   </tbody>
 
 </table>
+
+
  
 </br>
 </br>
 
+<form method= "post" action="ServletCurso">
 
+<!-- Modal Cargar-->
+<div class="modal fade" id="modalCargar" tabindex="-1" role="dialog" aria-labelledby="modalLabelCargar" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabelCargar">Cargar alumnos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      
+      
+        
+<div style="float:left">¿Está seguro que desea cargar los alumnos seleccionados en el curso?</div> <div style="width:300px;float:right"></div> 
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+	 <input type="submit" class="btn btn-info" name="btnAceptarC" id="btnAceptarC" value="Cargar"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input type="hidden" id= "AlumnosSeleccionados" name="AlumnosSeleccionados" onChange="pruebaFc()">
+
+
+</form>
 	 	
-	
+<button type="button" class="btn btn-info" name="btnCargar" id="btnCargar" data-toggle="modal" data-target="#modalCargar" disabled>
+Cargar alumnos
+</button>	
 
+<% 
+
+
+
+if (request.getAttribute("resultadoACF") != null)
+{	
+	boolean carga = (boolean) request.getAttribute("resultadoACF");
+
+	if (carga)
+		 	 	{
+ 	 	 	%>
+ 	 	 	
+ 	 	<body onLoad="$('#modalCorrecto').modal('show');">
+
+ 	 	<div class="modal fade" id="modalCorrecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+ 	 	  <div class="modal-dialog modal-dialog-centered" role="document">
+ 	 	    <div class="modal-content">
+ 	 	      <div class="modal-header">
+ 	 	        <h5 class="modal-title" id="exampleModalCenterTitle">Éxito</h5>
+ 	 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+ 	 	          <span aria-hidden="true">&times;</span>
+ 	 	        </button>
+ 	 	      </div>
+ 	 	      <div class="modal-body">
+ 	 	        La carga fue realizada con éxito.
+ 	 	      </div>
+ 	 	      <div class="modal-footer">
+ 	 	        <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar</button>
+ 	 	      </div>
+ 	 	    </div>
+ 	 	  </div>
+ 	 	</div>
+ 	 	 	
+ 	 	 	
+ 	 	 	<% 
+		 	 	}
+}
+ 	 	 	%> 
 
 </body>
 
@@ -169,21 +247,24 @@ for (Persona pers : listP)
         //$(this).toggleClass('selected');
 				
               $("#AlumnosSeleccionados").val(table.rows(['.selected']).data().pluck(0).toArray());
-                     var value = $("#AlumnosSeleccionados").val();
-                     //if(value > 0){
-                    	 //$('#btnModificar').removeAttr('disabled');
-                    	 //$('#btnBorrar').removeAttr('disabled');
-                    // }
+              var value = $("#AlumnosSeleccionados").val().length;
+              
+                     
+                     if(value > 0){
+                     $('#btnCargar').removeAttr('disabled');
+                    
+                     }
+                     
+                     else
+                    	{
+                    	 $('#btnCargar').prop("disabled", true);
+                    	}
               
 
        
     } );
    
-    
-
-
-
-    
+        
     var table = $('#TablaAlum').DataTable();
     
     

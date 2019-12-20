@@ -159,5 +159,100 @@ public class CursoDao {
 
 
 	}
+	
+	
+	
+	public ArrayList<Persona> obtenerAlumnosDisponibles(int IDCurso) {
+		cn = new Conexion();
+		cn.Open();
+		 ArrayList<Persona> list = new ArrayList<Persona>();
+		 try
+		 {
+			 ResultSet rs= cn.query("Select * from personas where Estado=1 AND Rol='Alumno'");
+			 while(rs.next())
+			 {
+				 Persona pers = new Persona();
+				 
+				 
+				 pers.setLegajo(rs.getInt("Legajo"));
+				 pers.setDNI(rs.getInt("DNI"));
+				 pers.setApellidoNombre(rs.getString("ApellidoNombre"));
+				 pers.setDireccion(rs.getString("Direccion"));
+				 pers.setLocalidad(rs.getString("Localidad"));
+				 pers.setProvincia(rs.getString("Provincia"));
+				 pers.setMail(rs.getString("Mail"));
+				 pers.setTelefono(rs.getInt("Telefono"));
+				 pers.setRol("'Alumno'");
+				 
+				 if (alumnoDisponible(IDCurso, pers.getLegajo()))
+				 {
+					 list.add(pers); 
+				 }
+				 
+			 }
+			 
+		 }
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();
+		 }
+		 finally
+		 {
+			 cn.close();
+		 }
+		 return list;
+	}
+	
+	public boolean alumnoDisponible(int IDCurso, int Legajo) {
+		cn = new Conexion();
+		cn.Open();
+		boolean resultado = true;
+		 try
+		 {
+			 ResultSet rs= cn.query("Select * from alumnos_x_curso where IDCurso="+IDCurso+" AND Legajo="+Legajo);
+			 while(rs.next())
+			 {
+				 resultado=false;
+			 }
+			 
+		 }
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();
+		 }
+		 finally
+		 {
+			 cn.close();
+		 }
+		 return resultado;
+	}
+	
+	public boolean cargaAlumnos(int Leg, int IDCurso)
+	{
+		boolean estado = false;
+		cn = new Conexion();
+		cn.Open();	
+
+		String query = "INSERT INTO alumnos_x_curso (IDCurso, Legajo) "
+				     + "VALUES ("+IDCurso+","+Leg+")";
+				     
+		try
+		 {
+			estado=cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return estado;
+
+
+	}
+	
+	
 
 }

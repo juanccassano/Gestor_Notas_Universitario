@@ -71,7 +71,7 @@
 </nav>
 </br>
 
-<input type="hidden" id= "CursoSeleccionado" name="AlumnoSeleccionado" onChange="pruebaFc()">
+
 
 
 <table id="TablaCurso" class="table table-hover table-dark">
@@ -181,6 +181,7 @@ for (Curso cur : listC)
     </div>
   </div>
 </div>
+<input type="hidden" id= "CursoSeleccionado" name="CursoSeleccionado" onChange="pruebaFc()">
 <input type="submit" class="btn btn-info" name="btnCargarAlumnos" id="btnCargarAlumnos" value="Cargar alumnos" disabled/>
 <input type="submit" class="btn btn-info" name="btnCargarNotas" id="btnCargarNotas" value="Cargar notas" disabled/>
 
@@ -228,7 +229,40 @@ if (request.getAttribute("resultadoA") != null)
  	 	 	<% 
 		 	 	}
 }
- 	 	 	%> 
+	 	 	 	if (request.getAttribute("resultadoACF") != null)
+	 	 	 	{	
+	 	 	 		boolean carga = (boolean) request.getAttribute("resultadoACF");
+
+	 	 	 		if (carga)
+	 	 	 			 	 	{
+	 	 	 	 	 	 	%>
+	 	 	 	 	 	 	
+	 	 	 	 	 	<body onLoad="$('#modalCorrecto').modal('show');">
+
+	 	 	 	 	 	<div class="modal fade" id="modalCorrecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	 	 	 	 	 	  <div class="modal-dialog modal-dialog-centered" role="document">
+	 	 	 	 	 	    <div class="modal-content">
+	 	 	 	 	 	      <div class="modal-header">
+	 	 	 	 	 	        <h5 class="modal-title" id="exampleModalCenterTitle">Éxito</h5>
+	 	 	 	 	 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	 	 	 	 	 	          <span aria-hidden="true">&times;</span>
+	 	 	 	 	 	        </button>
+	 	 	 	 	 	      </div>
+	 	 	 	 	 	      <div class="modal-body">
+	 	 	 	 	 	        La carga fue realizada con éxito.
+	 	 	 	 	 	      </div>
+	 	 	 	 	 	      <div class="modal-footer">
+	 	 	 	 	 	        <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar</button>
+	 	 	 	 	 	      </div>
+	 	 	 	 	 	    </div>
+	 	 	 	 	 	  </div>
+	 	 	 	 	 	</div>
+	 	 	 	 	 	 	
+	 	 	 	 	 	 	
+	 	 	 	 	 	 	<% 
+	 	 	 			 	 	}
+	 	 	 	}
+	 	 	 	 	 	 	%> 
 
 </body>
 

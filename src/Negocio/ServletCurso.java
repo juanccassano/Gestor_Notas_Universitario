@@ -1,5 +1,6 @@
 package Negocio;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -73,6 +74,60 @@ public class ServletCurso extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/Cursos.jsp");
 			rd.forward(request, response);
 		}
+		
+		
+		
+		if (request.getParameter("btnCargarAlumnos")!= null)
+		{
+			int IDSelec = 0;
+
+			if (request.getParameter("CursoSeleccionado") != "")
+			{
+				IDSelec = Integer.parseInt(request.getParameter("CursoSeleccionado"));
+				HttpSession session = request.getSession();
+				session.setAttribute("IDCursoSeleccionado", IDSelec);
+			}
+			
+
+			
+			request.setAttribute ("resultadoAC", IDSelec);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/AlumnosPorCurso.jsp");
+			rd.forward(request, response);
+		}
+		
+		
+		
+		
+		
+		if (request.getParameter("btnAceptarC")!= null)
+		{
+			
+			boolean carga = false;
+			CursoDao cur = new CursoDao();
+			
+			if (request.getParameter("AlumnosSeleccionados") != "" && request.getParameter("CursoSeleccionado") != "")
+			{
+				HttpSession session = request.getSession();
+				String Seleccionados = request.getParameter("AlumnosSeleccionados");
+				String AlumSel[] = Seleccionados.split(",");
+				int CantAlum = AlumSel.length;
+				
+				for (int i=0; i < CantAlum; i++)
+				{
+					int legSel = Integer.parseInt(AlumSel[i]);
+					int curSel = (int) session.getAttribute("IDCursoSeleccionado");
+					cur.cargaAlumnos(legSel, curSel);
+					carga=true;
+				}
+			}
+			
+			request.setAttribute ("resultadoACF", carga);		
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/Cursos.jsp");
+			rd.forward(request, response);
+		}
+
 		
 		
 		
