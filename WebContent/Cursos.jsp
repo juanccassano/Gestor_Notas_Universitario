@@ -101,7 +101,7 @@ for (Curso cur : listC)
 <td><%=  curD.obtenerMateria(cur.getIDmateria()) %> </td>
 <td> <%= cur.getSemestre() %> </td>
 <td><%= cur.getAnio() %></td>
-<td><%= curD.obtenerProf(cur.getLegDocente()) %> </td>
+<td><%= cur.getLegDocente()+ " - "+ curD.obtenerProf(cur.getLegDocente()) %> </td>
 </tr>
 <%
 }
@@ -162,7 +162,7 @@ for (Curso cur : listC)
 								 		 	
 		 	 		 	 	 		 			   for (Persona p : per)
 		 	 		 	 	 		 			   {
-							 	 		 			%><option value="<%=p.getLegajo()%>"> <%= p.getApellidoNombre() %> </option>
+							 	 		 			%><option value="<%=p.getLegajo()%>"> <%= p.getLegajo() + " - " + p.getApellidoNombre() %> </option>
 											   		<%
 		 	 		 	 	 		 			   }
 											   		%>
@@ -182,6 +182,7 @@ for (Curso cur : listC)
   </div>
 </div>
 <input type="hidden" id= "CursoSeleccionado" name="CursoSeleccionado" onChange="pruebaFc()">
+<input type="hidden" id= "ProfCurso" name="ProfCurso" onChange="pruebaFc()">
 <input type="submit" class="btn btn-info" name="btnCargarAlumnos" id="btnCargarAlumnos" value="Cargar alumnos" disabled/>
 <input type="submit" class="btn btn-info" name="btnCargarNotas" id="btnCargarNotas" value="Cargar notas" disabled/>
 
@@ -299,6 +300,7 @@ if (request.getAttribute("resultadoA") != null)
         //$(this).toggleClass('selected');
 				
               $("#CursoSeleccionado").val(table.rows(['.selected']).data().pluck(0).toArray());
+              $("#ProfCurso").val(table.rows(['.selected']).data().pluck(4).toArray());
                      var value = $("#CursoSeleccionado").val();
                      if(value > 0){
                     	 $('#btnCargarAlumnos').removeAttr('disabled');

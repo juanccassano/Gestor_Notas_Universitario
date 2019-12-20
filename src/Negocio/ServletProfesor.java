@@ -103,7 +103,7 @@ public class ServletProfesor extends HttpServlet {
 					
 				
 				cargadoM = persona.modificarPersona(modif);
-				
+				persona.modificarUsuario(modif);
 				}
 				
 				
@@ -148,6 +148,8 @@ public class ServletProfesor extends HttpServlet {
 					
 				
 				cargadoN = persona.altaPersona(alta, "Profesor");
+				persona.altaUsuario(alta);
+				
 				
 				}
 				
@@ -164,6 +166,7 @@ public class ServletProfesor extends HttpServlet {
 				PersonaDao persona = new PersonaDao();
 				int leg = (Integer.parseInt(request.getParameter("txtLegB")));
 				
+				persona.borrarUsuario(leg);
 				borrado = persona.borrarPersona(leg);
 				
 				

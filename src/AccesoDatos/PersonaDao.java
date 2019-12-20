@@ -135,6 +135,32 @@ public class PersonaDao {
 
 
 	}
+	
+	public boolean altaUsuario(Persona p)
+	{
+		boolean estado = false;
+		cn = new Conexion();
+		cn.Open();	
+
+		String query = "INSERT INTO usuarios (Legajo, Clave) VALUES ('"+p.getLegajo()+"','"+p.getDNI()+"')";
+		try
+		 {
+			estado=cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return estado;
+
+
+	}
+	
+	
 
 	public ArrayList<Provincia> obtenerProvincias()
 	{
@@ -321,6 +347,32 @@ public class PersonaDao {
 		return estado;
 	}
 	
+	public boolean modificarUsuario(Persona p) {
+		
+
+		Persona persona = new Persona();
+		boolean estado=false;
+		
+		cn = new Conexion();
+		cn.Open();	
+
+		String query = "UPDATE usuarios SET Clave='"+p.getDNI()+"' WHERE Legajo='"+p.getLegajo()+"'";
+		try
+		 {
+			estado=cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return estado;
+	}
+	
+	
 	public boolean borrarPersona(int leg) {
 		
 
@@ -344,5 +396,31 @@ public class PersonaDao {
 		}
 		return estado;
 	}
+	
+	public boolean borrarUsuario(int leg) {
+		
+
+		boolean estado=false;
+		
+		cn = new Conexion();
+		cn.Open();	
+
+		String query = "DELETE from usuarios where Legajo="+leg;
+		try
+		 {
+			estado=cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return estado;
+	}
+	
+	
 
 }

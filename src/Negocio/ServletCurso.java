@@ -2,6 +2,7 @@ package Negocio;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import AccesoDatos.CursoDao;
 import AccesoDatos.PersonaDao;
+
 import Dominio.Curso;
+import Dominio.Nota;
 import Dominio.Persona;
 
 /**
@@ -127,7 +130,108 @@ public class ServletCurso extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/Cursos.jsp");
 			rd.forward(request, response);
 		}
+		
+		
+		if (request.getParameter("btnCargarNotas")!= null)
+		{
+			CursoDao cur = new CursoDao();
+			int IDCurso = 0;
+			IDCurso = Integer.parseInt(request.getParameter("CursoSeleccionado"));
+			HttpSession session = request.getSession();
+			session.setAttribute("IDCursoSeleccionado", IDCurso);
+			String table = "";
+			ArrayList<Persona> listado = cur.obtenerAlumnosCurso(IDCurso);
+			for (Persona p : listado)
+			{
+				String P1="", P2="", R1="", R2="";
+				
+				if (cur.obtenerPUno(IDCurso, p.getLegajo()) > 0 && cur.obtenerPUno(IDCurso, p.getLegajo()) <11)
+				{
+					P1 = Integer.toString(cur.obtenerPUno(IDCurso, p.getLegajo()));	
+							
+				}
+				
+				if (cur.obtenerPDos(IDCurso, p.getLegajo()) > 0 && cur.obtenerPDos(IDCurso, p.getLegajo()) <11)
+				{
+					P2 = Integer.toString(cur.obtenerPDos(IDCurso, p.getLegajo()))	;	
+							
+				}
+				
+				if (cur.obtenerRUno(IDCurso, p.getLegajo()) > 0 && cur.obtenerRUno(IDCurso, p.getLegajo()) <11)
+				{
+					R1 = Integer.toString(cur.obtenerRUno(IDCurso, p.getLegajo()))	;	
+							
+				}
+				
+				if (cur.obtenerRDos(IDCurso, p.getLegajo()) > 0 && cur.obtenerRDos(IDCurso, p.getLegajo()) <11)
+				{
+					R2 = Integer.toString(cur.obtenerRDos(IDCurso, p.getLegajo()))	;	
+							
+				}
+				
 
+				
+				table+= "<tr>\r\n" + 
+						"      <th scope=\"row\">"+ p.getLegajo() +"</th>\r\n" + 
+						"      <td>" + p.getApellidoNombre() + "</td>\r\n" + 
+						"      <td><p style=\"text-align:center\";><input type=\"text\" id=parcialUno"+ p.getLegajo()+ " name=\"parcialUno"+ p.getLegajo() +"\" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)' style=\"width: 30px;\"/ value="+ P1 +"></p></td>\r\n" + 
+						"      <td><p style=\"text-align:center\";><input type=\"text\" id=parcialDos"+ p.getLegajo()+ " name=\"parcialDos"+ p.getLegajo() +"\" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)' style=\"width: 30px;\"/ value="+ P2 +"></p></td>\r\n" + 
+						"      <td><p style=\"text-align:center\";><input type=\"text\" id=recupUno"+ p.getLegajo() +" name=\"recupUno"+ p.getLegajo() +"\" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)' style=\"width: 30px;\"/ value="+ R1 +"></p></td>\r\n" + 
+						"      <td><p style=\"text-align:center\";><input type=\"text\" id=recupDos"+ p.getLegajo() + " name=\"recupDos"+ p.getLegajo() +"\" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)' style=\"width: 30px;\"/ value="+ R2 +"></p></td>\r\n" + 
+						"      <td>\r\n" + 
+						"      <select class=\"custom-select\" style=\"width: 150px;\">\r\n" + 
+						"	  <option value=\"0\" class=\"dropdown-item\">Regular</option> \r\n" + 
+						"	  <option value=\"1\" class=\"dropdown-item\">Libre</option> \r\n" + 
+						"	  </select>\r\n" + 
+						"    </tr>";
+				
+			}
+			
+			request.setAttribute("tablaAlumnosCurso", table);
+			
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/MenuAlumnos.jsp");
+			rd.forward(request, response);
+		}
+		
+		
+
+		if (request.getParameter("btnAceptarCN")!= null)
+		{
+			
+			boolean carga = false;
+			CursoDao cur = new CursoDao();
+			
+			
+				HttpSession session = request.getSession();
+				int IDCurso= (int) session.getAttribute("IDCursoSeleccionado");
+				ArrayList<Persona> listado = cur.obtenerAlumnosCurso(IDCurso);
+				for (Persona p : listado)
+				{
+					String P1 = "parcialUno"+p.getLegajo();
+					String P2 = "parcialDos"+p.getLegajo();
+					String R1 = "recupUno"+p.getLegajo();
+					String R2 = "recupDos"+p.getLegajo();
+					
+					Nota not = new Nota();
+					
+					if (request.getParameter(P1) != "")
+					{
+					
+					}
+					
+					
+					
+				}
+				
+				
+			
+			
+			request.setAttribute ("resultadoCN", carga);		
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/Cursos.jsp");
+			rd.forward(request, response);
+		}
 		
 		
 		

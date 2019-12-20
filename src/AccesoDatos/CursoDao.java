@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import AccesoDatos.Conexion;
 import Dominio.Curso;
 import Dominio.Materia;
+import Dominio.Nota;
 import Dominio.Persona;
 import Dominio.Provincia;
 
@@ -203,6 +204,48 @@ public class CursoDao {
 		 return list;
 	}
 	
+	
+	public ArrayList<Persona> obtenerAlumnosCurso(int IDCurso) {
+		cn = new Conexion();
+		cn.Open();
+		 ArrayList<Persona> list = new ArrayList<Persona>();
+		 try
+		 {
+			 ResultSet rs= cn.query("Select * from personas where Estado=1 AND Rol='Alumno'");
+			 while(rs.next())
+			 {
+				 Persona pers = new Persona();
+				 
+				 
+				 pers.setLegajo(rs.getInt("Legajo"));
+				 pers.setDNI(rs.getInt("DNI"));
+				 pers.setApellidoNombre(rs.getString("ApellidoNombre"));
+				 pers.setDireccion(rs.getString("Direccion"));
+				 pers.setLocalidad(rs.getString("Localidad"));
+				 pers.setProvincia(rs.getString("Provincia"));
+				 pers.setMail(rs.getString("Mail"));
+				 pers.setTelefono(rs.getInt("Telefono"));
+				 pers.setRol("'Alumno'");
+				 
+				 if (!alumnoDisponible(IDCurso, pers.getLegajo()))
+				 {
+					 list.add(pers); 
+				 }
+				 
+			 }
+			 
+		 }
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();
+		 }
+		 finally
+		 {
+			 cn.close();
+		 }
+		 return list;
+	}
+	
 	public boolean alumnoDisponible(int IDCurso, int Legajo) {
 		cn = new Conexion();
 		cn.Open();
@@ -253,6 +296,131 @@ public class CursoDao {
 
 	}
 	
+	public int obtenerPUno(int IDCurso, int Legajo) {
+		cn = new Conexion();
+		cn.Open();
+		 int nota = 0;
+		 try
+		 {
+			 ResultSet rs= cn.query("Select Nota from notas where Legajo="+Legajo+" AND IDCurso="+IDCurso+" AND Instancia='P1'");
+			 while(rs.next())
+			 {
+				 nota = rs.getInt("Nota");
+				 
+			 }
+			 
+		 }
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();
+		 }
+		 finally
+		 {
+			 cn.close();
+		 }
+		 return nota;
+	}
+	
+	public int obtenerPDos(int IDCurso, int Legajo) {
+		cn = new Conexion();
+		cn.Open();
+		 int nota = 0;
+		 try
+		 {
+			 ResultSet rs= cn.query("Select Nota from notas where Legajo="+Legajo+" AND IDCurso="+IDCurso+" AND Instancia='P2'");
+			 while(rs.next())
+			 {
+				 nota = rs.getInt("Nota");
+				 
+			 }
+			 
+		 }
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();
+		 }
+		 finally
+		 {
+			 cn.close();
+		 }
+		 return nota;
+	}
+	
+	public int obtenerRUno(int IDCurso, int Legajo) {
+		cn = new Conexion();
+		cn.Open();
+		 int nota = 0;
+		 try
+		 {
+			 ResultSet rs= cn.query("Select Nota from notas where Legajo="+Legajo+" AND IDCurso="+IDCurso+" AND Instancia='R1'");
+			 while(rs.next())
+			 {
+				 nota = rs.getInt("Nota");
+				 
+			 }
+			 
+		 }
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();
+		 }
+		 finally
+		 {
+			 cn.close();
+		 }
+		 return nota;
+	}
+	
+	public int obtenerRDos(int IDCurso, int Legajo) {
+		cn = new Conexion();
+		cn.Open();
+		 int nota = 0;
+		 try
+		 {
+			 ResultSet rs= cn.query("Select Nota from notas where Legajo="+Legajo+" AND IDCurso="+IDCurso+" AND Instancia='R2'");
+			 while(rs.next())
+			 {
+				 nota = rs.getInt("Nota");
+				 
+			 }
+			 
+		 }
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();
+		 }
+		 finally
+		 {
+			 cn.close();
+		 }
+		 return nota;
+	}
+	
+	public boolean cargarNota(Nota n)
+	{
+		boolean estado = false;
+		cn = new Conexion();
+		cn.Open();	
+
+		String query = "INSERT INTO notas (Legajo, Nota, Instancia, IDCurso) "
+				     + "VALUES ("+ n.getLegajo() +","+ n.getNota()+",'"+ n.getInstancia()+"',"+ n.getIDCurso()+")";
+				     
+		try
+		 {
+			estado=cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		return estado;
+
+
+	}
 	
 
 }
