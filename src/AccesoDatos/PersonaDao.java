@@ -86,6 +86,7 @@ public class PersonaDao {
 	
 	
 	
+	
 	public int proximoLegajo()
 	{
 		cn = new Conexion();
@@ -322,6 +323,38 @@ public class PersonaDao {
 		return prov;
 	}
 	
+	public boolean personaDisponible(int DNI)
+	{
+		cn = new Conexion();
+		cn.Open();
+		
+		boolean estado = true;
+		 try
+		 {
+			 ResultSet rs= cn.query("Select * from personas where DNI="+DNI);
+			 while(rs.next())
+			 {
+
+				 
+
+				 estado = false;
+
+
+			 }
+			 
+		 }
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();
+		 }
+		 finally
+		 {
+			 cn.close();
+		 }
+		return estado;
+	}
+
+	
 	public boolean modificarPersona(Persona p) {
 		
 
@@ -396,6 +429,8 @@ public class PersonaDao {
 		}
 		return estado;
 	}
+	
+	
 	
 	public boolean borrarUsuario(int leg) {
 		

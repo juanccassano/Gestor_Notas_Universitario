@@ -145,10 +145,13 @@ public class ServletProfesor extends HttpServlet {
 					alta.setRol("Profesor");
 					
 					
-					
+					if (persona.personaDisponible(alta.getDNI())) 
+					{
+						cargadoN = persona.altaPersona(alta, "Profesor");
+						persona.altaUsuario(alta);
+					}
 				
-				cargadoN = persona.altaPersona(alta, "Profesor");
-				persona.altaUsuario(alta);
+
 				
 				
 				}

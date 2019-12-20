@@ -57,7 +57,7 @@
         <a class="nav-link" href="./Cursos.jsp">Cursos</a>
       </li>      
       <li class="nav-item">
-        <a class="nav-link" href="#./Reportes.jsp">Reportes</a>
+        <a class="nav-link" href="./Reporte.jsp">Reportes</a>
       </li>
     </ul>
 
@@ -191,7 +191,7 @@ for (Persona pers : listP)
       %>
 </br>
 </br>
-<div style="float:left">DNI: </div> <div style="width:300px;float:right"><input type="text" id="txtDNIN" name="txtDNIN"/> </div>
+<div style="float:left">DNI: </div> <div style="width:300px;float:right"><input type="text" id="txtDNIN" maxlength="8" name="txtDNIN" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)'/> </div>
 </br>
 </br>
 <div style="float:left">Apellido y nombre: </div> <div style="width:300px;float:right"><input type="text" id="txtApNomN" name="txtApNomN" /> </div>
@@ -242,7 +242,7 @@ for (Persona pers : listP)
 <div style="float:left">Mail: </div> <div style="width:300px;float:right"><input type="text" name="txtMailN" id="txtMailN"/> </div>
 </br>
 </br>
-<div style="float:left">Teléfono: </div> <div style="width:300px;float:right"><input type="text" name="txtTelN" id="txtTelN"/> </div>
+<div style="float:left">Teléfono: </div> <div style="width:300px;float:right"><input type="text" name="txtTelN" id="txtTelN" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)'/> </div>
 </br>
 </br>
 
@@ -276,7 +276,7 @@ for (Persona pers : listP)
 <div style="float:left">Legajo: </div> <div style="width:300px;float:right"><input type="text" id="txtLegM" name="txtLegM" readonly/> </div> 
 </br>
 </br>
-<div style="float:left">DNI: </div> <div style="width:300px;float:right"><input type="text" id="txtDNIM" name="txtDNIM"/> </div>
+<div style="float:left">DNI: </div> <div style="width:300px;float:right"><input type="text" maxlength="8" id="txtDNIM" name="txtDNIM" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)'/> </div>
 </br>
 </br>
 <div style="float:left">Apellido y nombre: </div> <div style="width:300px;float:right"><input type="text" id="txtApNomM" name="txtApNomM" /> </div>
@@ -325,7 +325,7 @@ for (Persona pers : listP)
 <div style="float:left">Mail: </div> <div style="width:300px;float:right"><input type="text" id="txtMailM" name="txtMailM" /> </div>
 </br>
 </br>
-<div style="float:left">Teléfono: </div> <div style="width:300px;float:right"><input type="text" id="txtTelM" name="txtTelM" /> </div>
+<div style="float:left">Teléfono: </div> <div style="width:300px;float:right"><input type="text" id="txtTelM" name="txtTelM" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)' /> </div>
 </br>
 </br>
 
@@ -480,6 +480,34 @@ if (request.getAttribute("resultado") != null)
  	 	 	
  	 	 	<% 
 		 	 	}
+ 	 	 	else
+	 	 	 	{
+	 	 	 		%>
+
+	 	<body onLoad="$('#modalIncorrectoN').modal('show');">
+
+	 	<div class="modal fade" id="modalIncorrectoN" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	 	  <div class="modal-dialog modal-dialog-centered" role="document">
+	 	    <div class="modal-content">
+	 	      <div class="modal-header">
+	 	        <h5 class="modal-title" id="exampleModalCenterTitle">Error</h5>
+	 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	 	          <span aria-hidden="true">&times;</span>
+	 	        </button>
+	 	      </div>
+	 	      <div class="modal-body">
+	 	        Error en la carga, ya hay un registro con ese DNI.
+	 	      </div>
+	 	      <div class="modal-footer">
+	 	        <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar</button>
+	 	      </div>
+	 	    </div>
+	 	  </div>
+	 	</div>
+
+	 	 	<% 
+	 	 	 	}
+
 }
  	 	 	%> 
  	 	 	 	

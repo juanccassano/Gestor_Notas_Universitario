@@ -30,7 +30,7 @@
  Legajo:
  </div>
  <div class="col-3">
- <input type="text" name="txtUser" />
+ <input type="text" name="txtUser" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)'/>
  </div>
  </div>
 </div>
@@ -43,7 +43,7 @@
  Clave:
  </div>
  <div class="col-3">
- <input type="password" name="txtPass" />
+ <input type="password" name="txtPass" maxlength="8" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)'/>
  </div>
  </div>
 </div>

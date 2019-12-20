@@ -174,10 +174,10 @@ public class ServletCurso extends HttpServlet {
 				table+= "<tr>\r\n" + 
 						"      <th scope=\"row\">"+ p.getLegajo() +"</th>\r\n" + 
 						"      <td>" + p.getApellidoNombre() + "</td>\r\n" + 
-						"      <td><p style=\"text-align:center\";><input type=\"text\" id=parcialUno"+ p.getLegajo()+ " name=\"parcialUno"+ p.getLegajo() +"\" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)' style=\"width: 30px;\"/ value="+ P1 +"></p></td>\r\n" + 
-						"      <td><p style=\"text-align:center\";><input type=\"text\" id=parcialDos"+ p.getLegajo()+ " name=\"parcialDos"+ p.getLegajo() +"\" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)' style=\"width: 30px;\"/ value="+ P2 +"></p></td>\r\n" + 
-						"      <td><p style=\"text-align:center\";><input type=\"text\" id=recupUno"+ p.getLegajo() +" name=\"recupUno"+ p.getLegajo() +"\" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)' style=\"width: 30px;\"/ value="+ R1 +"></p></td>\r\n" + 
-						"      <td><p style=\"text-align:center\";><input type=\"text\" id=recupDos"+ p.getLegajo() + " name=\"recupDos"+ p.getLegajo() +"\" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)' style=\"width: 30px;\"/ value="+ R2 +"></p></td>\r\n" + 
+						"      <td><p style=\"text-align:center\";><input type=\"text\" id=parcialUno"+ p.getLegajo()+ " name=\"parcialUno"+ p.getLegajo() +"\" maxlength=\"2\" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)' style=\"width: 30px;\"/ value="+ P1 +"></p></td>\r\n" + 
+						"      <td><p style=\"text-align:center\";><input type=\"text\" id=parcialDos"+ p.getLegajo()+ " name=\"parcialDos"+ p.getLegajo() +"\" maxlength=\"2\" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)' style=\"width: 30px;\"/ value="+ P2 +"></p></td>\r\n" + 
+						"      <td><p style=\"text-align:center\";><input type=\"text\" id=recupUno"+ p.getLegajo() +" name=\"recupUno"+ p.getLegajo() +"\" maxlength=\"2\" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)' style=\"width: 30px;\"/ value="+ R1 +"></p></td>\r\n" + 
+						"      <td><p style=\"text-align:center\";><input type=\"text\" id=recupDos"+ p.getLegajo() + " name=\"recupDos"+ p.getLegajo() +"\" maxlength=\"2\" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)' style=\"width: 30px;\"/ value="+ R2 +"></p></td>\r\n" + 
 						"      <td>\r\n" + 
 						"      <select class=\"custom-select\" style=\"width: 150px;\">\r\n" + 
 						"	  <option value=\"0\" class=\"dropdown-item\">Regular</option> \r\n" + 

@@ -61,7 +61,7 @@
         <a class="nav-link" href="./Cursos.jsp">Cursos</a>
       </li>      
       <li class="nav-item">
-        <a class="nav-link" href="#./Reportes.jsp">Reportes</a>
+        <a class="nav-link" href="./Reportes.jsp">Reportes</a>
       </li>
     </ul>
 
