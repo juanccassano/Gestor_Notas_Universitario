@@ -8,7 +8,7 @@ public class Ingreso {
 	
 
 	int Legajo;
-	LocalDate ingreso;
+	LocalDateTime ingreso;
 	
 	public int getLegajo() {
 		return Legajo;
@@ -16,10 +16,10 @@ public class Ingreso {
 	public void setLegajo(int legajo) {
 		Legajo = legajo;
 	}
-	public LocalDate getIngreso() {
+	public LocalDateTime getIngreso() {
 		return ingreso;
 	}
-	public void setIngreso(LocalDate ingreso) {
+	public void setIngreso(LocalDateTime ingreso) {
 		this.ingreso = ingreso;
 	}
 	

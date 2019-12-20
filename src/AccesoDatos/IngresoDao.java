@@ -146,6 +146,41 @@ public class IngresoDao {
 		
 	}
 	
+	public String obtenerNombre(int leg)
+	{
+		
+		
+		cn = new Conexion();
+		cn.Open();
+		String user="";
+		
+
+		try
+		 {
+			 ResultSet rs= cn.query("SELECT ApellidoNombre FROM personas WHERE Legajo="+leg);
+			 rs.next();
+			 
+			 if (rs.getString("ApellidoNombre") != null)
+			 {
+				 user = rs.getString("ApellidoNombre"); 
+			 }
+				 
+
+
+			 
+		 }
+		 catch(Exception e)
+		 {
+			 e.printStackTrace();
+		 }
+		 finally
+		 {
+			 cn.close();
+		 }
+		return user;
+		
+	}
+	
 
 	
 }
